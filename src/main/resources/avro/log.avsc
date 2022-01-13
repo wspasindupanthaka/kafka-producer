@@ -1,0 +1,15 @@
+{"namespace": "com.pasindu.kafkaproducer.kafka.model",
+  "type": "record",
+  "name": "LogsAvroModel",
+  "fields": [
+    {"name": "id", "type": ["null", "string"]},
+    {"name": "className", "type": ["null", "string"]},
+    {"name": "date", "type": ["null", "string"]},
+    {"name": "message", "type": ["null", "string"]},
+    {"name": "logLevel", "type": ["null", "string"]},
+    {"name": "applicationName", "type": ["null", "string"]},
+    {"name": "serviceName", "type": ["null", "string"]},
+    {"name": "userName", "type": ["null", "string"]},
+    {"name": "requestId", "type": ["null", "string"]}
+  ]
+}
