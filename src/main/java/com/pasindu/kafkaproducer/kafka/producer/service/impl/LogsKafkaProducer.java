@@ -7,12 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.PreDestroy;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @Service
 public class LogsKafkaProducer implements KafkaProducer<Long, LogAvroModel> {
@@ -25,37 +29,20 @@ public class LogsKafkaProducer implements KafkaProducer<Long, LogAvroModel> {
         this.kafkaTemplate = template;
     }
 
-    /**
-     * @param topicName
-     * @param key
-     * @param message
-     */
+
     @Override
     public void send(String topicName, Long key, LogAvroModel message) {
         LOG.info("Sending message='{}' to topic='{}'", message, topicName);
-        ListenableFuture<SendResult<Long, LogAvroModel>> kafkaResultFuture =
-                kafkaTemplate.send(topicName, key, message);
-        addCallback(topicName, message, kafkaResultFuture);
-    }
-
-    /**
-     * @param topicName
-     * @param key
-     * @param message
-     */
-    @Override
-    public void sendSync(String topicName, Long key, LogAvroModel message) {
-        LOG.info("Sending message='{}' to topic='{}' as Sync", message, topicName);
         try {
-            SendResult<Long, LogAvroModel> longLogAvroModelSendResult = kafkaTemplate.send(topicName, key, message).get();
-            System.out.println(longLogAvroModelSendResult);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
+        ListenableFuture<SendResult<Long, LogAvroModel>> kafkaResultFuture =
+                kafkaTemplate.send(topicName, key, message);
+        System.out.println(Thread.currentThread().getName() + " kafkaTemplate.send()");
+        addCallback(topicName, message, kafkaResultFuture);
     }
-
 
     @PreDestroy
     public void close() {

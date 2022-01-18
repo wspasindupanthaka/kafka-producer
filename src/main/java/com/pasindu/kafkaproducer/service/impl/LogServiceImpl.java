@@ -8,6 +8,10 @@ import com.pasindu.kafkaproducer.service.LogService;
 import com.pasindu.kafkaproducer.service.transformer.LogRequestToAvroModelTransformer;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 @Service
 public class LogServiceImpl implements LogService {
 
@@ -26,13 +30,15 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public void createLog(LogRequestModel logRequestModel) {
+        System.out.println(Thread.currentThread().getName() + " Hi Start");
+        CompletableFuture.runAsync(() -> createLogAsync(logRequestModel));
+        System.out.println(Thread.currentThread().getName() + " Hi End");
+    }
+
+    private void createLogAsync(LogRequestModel logRequestModel) {
         LogAvroModel logAvroModel = logRequestToAvroModelTransformer.getLogAvroModel(logRequestModel);
         kafkaProducer.send(kafkaConfigData.getTopicName(), 0L, logAvroModel);
     }
 
-    @Override
-    public void createLogSync(LogRequestModel logRequestModel) {
-        LogAvroModel logAvroModel = logRequestToAvroModelTransformer.getLogAvroModel(logRequestModel);
-        kafkaProducer.sendSync(kafkaConfigData.getTopicName(), 0L, logAvroModel);
-    }
+
 }

@@ -22,8 +22,8 @@ public class LogController {
         logService.createLog(logRequestModel);
     }
 
-    @PostMapping("/sync")
-    void writeLogSync(@RequestBody LogRequestModel logRequestModel) {
-        logService.createLogSync(logRequestModel);
-    }
+//    @PostMapping("/sync")
+//    void writeLogSync(@RequestBody LogRequestModel logRequestModel) {
+//        logService.createLogSync(logRequestModel);
+//    }
 }
