@@ -29,4 +29,10 @@ public class LogServiceImpl implements LogService {
         LogAvroModel logAvroModel = logRequestToAvroModelTransformer.getLogAvroModel(logRequestModel);
         kafkaProducer.send(kafkaConfigData.getTopicName(), 0L, logAvroModel);
     }
+
+    @Override
+    public void createLogSync(LogRequestModel logRequestModel) {
+        LogAvroModel logAvroModel = logRequestToAvroModelTransformer.getLogAvroModel(logRequestModel);
+        kafkaProducer.sendSync(kafkaConfigData.getTopicName(), 0L, logAvroModel);
+    }
 }

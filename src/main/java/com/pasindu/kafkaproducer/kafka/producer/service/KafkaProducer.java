@@ -6,4 +6,5 @@ import java.io.Serializable;
 
 public interface KafkaProducer <K extends Serializable, V extends SpecificRecordBase> {
     void send(String topicName, K key, V message);
+    void sendSync(String topicName, K key, V message);
 }

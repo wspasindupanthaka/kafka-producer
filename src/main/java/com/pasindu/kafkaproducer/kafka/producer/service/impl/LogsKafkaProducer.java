@@ -12,6 +12,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.PreDestroy;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class LogsKafkaProducer implements KafkaProducer<Long, LogAvroModel> {
@@ -25,7 +26,6 @@ public class LogsKafkaProducer implements KafkaProducer<Long, LogAvroModel> {
     }
 
     /**
-     * Write as Async
      * @param topicName
      * @param key
      * @param message
@@ -37,6 +37,25 @@ public class LogsKafkaProducer implements KafkaProducer<Long, LogAvroModel> {
                 kafkaTemplate.send(topicName, key, message);
         addCallback(topicName, message, kafkaResultFuture);
     }
+
+    /**
+     * @param topicName
+     * @param key
+     * @param message
+     */
+    @Override
+    public void sendSync(String topicName, Long key, LogAvroModel message) {
+        LOG.info("Sending message='{}' to topic='{}' as Sync", message, topicName);
+        try {
+            SendResult<Long, LogAvroModel> longLogAvroModelSendResult = kafkaTemplate.send(topicName, key, message).get();
+            System.out.println(longLogAvroModelSendResult);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @PreDestroy
     public void close() {

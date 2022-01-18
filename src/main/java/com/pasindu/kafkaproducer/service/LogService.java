@@ -6,4 +6,6 @@ public interface LogService {
 
     void createLog(LogRequestModel logRequestModel);
 
+    void createLogSync(LogRequestModel logRequestModel);
+
 }
