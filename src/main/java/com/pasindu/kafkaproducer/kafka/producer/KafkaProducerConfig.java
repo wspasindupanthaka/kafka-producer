@@ -3,6 +3,8 @@ package com.pasindu.kafkaproducer.kafka.producer;
 import com.pasindu.kafkaproducer.kafka.config.data.KafkaConfigData;
 import com.pasindu.kafkaproducer.kafka.config.data.KafkaProducerConfigData;
 import org.apache.avro.specific.SpecificRecordBase;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,19 +45,8 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     }
 
     @Bean
-    public ProducerFactory<K, V> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfig());
-    }
-
-    /**
-     * KafkaTemplate is a Wrapper class around Kafka producer, and it provides some methods to be able to send data to
-     * Kafka easily.
-     * (Thread safe template for executing high level producer operations)
-     * @return
-     */
-    @Bean
-    public KafkaTemplate<K, V> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public Producer<K,V> kafkaProducer() {
+        return new KafkaProducer<K, V>(producerConfig()) ;
     }
 
 }

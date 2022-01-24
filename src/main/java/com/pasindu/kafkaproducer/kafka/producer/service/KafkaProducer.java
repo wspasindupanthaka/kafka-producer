@@ -4,10 +4,10 @@ import org.apache.avro.specific.SpecificRecordBase;
 import org.springframework.scheduling.annotation.Async;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.Future;
 
-public interface KafkaProducer <K extends Serializable, V extends SpecificRecordBase> {
+public interface KafkaProducer <K extends Serializable, V extends String> {
 
-    void send(String topicName, K key, V message);
-
+    void send(String topicName, Long key, String message);
 }

@@ -1,10 +1,12 @@
 package com.pasindu.kafkaproducer.kafka.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class LogRequestModel {
 
     private String id;
