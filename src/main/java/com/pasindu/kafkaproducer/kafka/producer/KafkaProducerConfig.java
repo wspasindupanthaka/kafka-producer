@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import reactor.kafka.sender.KafkaSender;
+import reactor.kafka.sender.SenderOptions;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -45,8 +47,14 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     }
 
     @Bean
-    public Producer<K,V> kafkaProducer() {
-        return new KafkaProducer<K, V>(producerConfig()) ;
+    public SenderOptions<K,V> senderOptions() {
+        SenderOptions<K,V> senderOptions = SenderOptions.create(producerConfig());
+        return senderOptions;
+    }
+
+    @Bean
+    public KafkaSender<K,V> kafkaSender() {
+        return KafkaSender.create(senderOptions());
     }
 
 }

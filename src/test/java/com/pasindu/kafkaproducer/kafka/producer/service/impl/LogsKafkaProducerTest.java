@@ -31,7 +31,7 @@ public class LogsKafkaProducerTest {
 
         MockProducer mockProducer = new MockProducer(true, new LongSerializer(), new StringSerializer());
 
-        kafkaProducer = new LogsKafkaProducer(mockProducer);
+//        kafkaProducer = new LogsKafkaProducer(mockProducer);
 
         LogRequestModel logRequestModel = new LogRequestModel("MOCK_ID",
                 "MOCK_CLASS",

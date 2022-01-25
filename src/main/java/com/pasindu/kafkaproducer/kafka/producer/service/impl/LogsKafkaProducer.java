@@ -8,6 +8,10 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.kafka.sender.KafkaSender;
+import reactor.kafka.sender.SenderResult;
 
 import java.util.concurrent.Future;
 
@@ -16,22 +20,17 @@ public class LogsKafkaProducer implements KafkaProducer<Long, String> {
 
     private static final Logger LOG = LoggerFactory.getLogger(LogsKafkaProducer.class);
 
-    private Producer<Long, String> producer;
+    private KafkaSender<Long, String> kafkaSender;
 
-    public LogsKafkaProducer(Producer<Long, String> producer) {
-        this.producer = producer;
+    public LogsKafkaProducer(KafkaSender<Long, String> kafkaSender) {
+        this.kafkaSender = kafkaSender;
     }
 
     @Override
     public void send(String topicName, Long key, String message) {
         LOG.info("Sending message='{}' to topic='{}'", message, topicName);
-        ProducerRecord record = new ProducerRecord(topicName, key, message);
-        Future send = producer.send(record, new Callback() {
-            @Override
-            public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-
-            }
-        });
+//        Flux<SenderResult<Object>> send = kafkaSender.send();
+        System.out.println(kafkaSender);
     }
 
 }
