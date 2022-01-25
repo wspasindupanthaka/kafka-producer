@@ -26,8 +26,7 @@ public class ProducerServiceImpl implements ProducerService {
 
     @Async("asyncConf")
     public void createLog(LogRequestModel logRequestModel) throws JsonProcessingException {
-        String logRequestModelAsJson = new ObjectMapper().writeValueAsString(logRequestModel);
-        kafkaProducer.send(kafkaConfigData.getTopicName(), 0L, logRequestModelAsJson);
+        kafkaProducer.send(kafkaConfigData.getTopicName(), 0L, logRequestModel);
     }
 
 

@@ -1,13 +1,11 @@
 package com.pasindu.kafkaproducer.kafka.producer.service;
 
-import org.apache.avro.specific.SpecificRecordBase;
-import org.springframework.scheduling.annotation.Async;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.pasindu.kafkaproducer.kafka.model.LogRequestModel;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.concurrent.Future;
 
 public interface KafkaProducer <K extends Serializable, V extends String> {
 
-    void send(String topicName, Long key, String message);
+    void send(String topicName, Long key, LogRequestModel logRequestModel);
 }
