@@ -1,6 +1,8 @@
 package com.pasindu.kafkaproducer;
 
 import com.pasindu.kafkaproducer.kafka.admin.client.KafkaAdminClient;
+import org.openjdk.jol.info.ClassLayout;
+import org.openjdk.jol.vm.VM;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -25,6 +27,8 @@ public class KafkaProducerApplication {
     public void postConstruct() {
         kafkaAdminClient.createTopics();
         kafkaAdminClient.checkSchemaRegistry();
+
+
     }
 
 }

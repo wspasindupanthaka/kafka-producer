@@ -6,6 +6,7 @@ import com.pasindu.kafkaproducer.kafka.config.data.KafkaConfigData;
 import com.pasindu.kafkaproducer.kafka.model.LogRequestModel;
 import com.pasindu.kafkaproducer.kafka.producer.service.KafkaProducer;
 import com.pasindu.kafkaproducer.service.ProducerService;
+import com.pasindu.kafkaproducer.util.JsonEncoder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,8 @@ public class ProducerServiceImpl implements ProducerService {
 
     @Async("asyncConf")
     public void createLog(LogRequestModel logRequestModel) throws JsonProcessingException {
-        kafkaProducer.send(kafkaConfigData.getTopicName(), 0L, logRequestModel);
+        String logRequestModelAsString = JsonEncoder.encodeLogRequestModelToString(logRequestModel);
+        kafkaProducer.send(kafkaConfigData.getTopicName(), 0L, logRequestModelAsString);
     }
 
 
